@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import QUESTIONS from '../../public/dummy_data/questions';
 import image_quizComplete from '../assets/quiz-complete.png';
+import QuestionTimer from './QUestionTimer';
 
 const Quiz = () => {
 	const [userAnswers, setUserAnswers] = useState([]);
@@ -9,9 +10,15 @@ const Quiz = () => {
 	const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
 	const handleSelectAnswer = (selectedAnswer) => {
+		console.log('====================================');
+		console.log('SelectedAnswer: ');
+		console.log(selectedAnswer);
 		setUserAnswers((prev) => {
 			return [...prev, selectedAnswer];
 		});
+		console.log('====================================');
+		console.log('userANswers: ');
+		console.log(userAnswers);
 	};
 
 	if (quizIsComplete) {
@@ -36,6 +43,12 @@ const Quiz = () => {
 		<main>
 			<div id='quiz'>
 				<div id='question'>
+					<QuestionTimer
+						timeout={10000}
+						onTimeout={() => {
+							handleSelectAnswer(null);
+						}}
+					/>
 					<p>{QUESTIONS[activeQuestionIndex].text}</p>
 
 					<ul id='answers'>
